@@ -11,6 +11,7 @@ from .models_manager import UserManager
 # PatientTestimonial - image, title, description
 # Contact Us - mobile, email, address, facebook, twitter, instagram, linkedin, youtube
 
+
 class TimeBaseModel(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)

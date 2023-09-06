@@ -1,4 +1,5 @@
 from .models import (
+    User,
     Service,
     Statistics,
     MainCardSlider,
@@ -7,6 +8,12 @@ from .models import (
     ContactUs,
 )
 from django.contrib import admin
+
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('email', 'first_name', 'last_name', 'is_active')
+    list_filter = ('is_staff', 'is_active', 'date_joined',)
+    search_fields = ('email', 'first_name', 'last_name',)
 
 
 class TimeBaseModelAdmin(admin.ModelAdmin):
@@ -66,6 +73,7 @@ class ContactUsAdmin(TimeBaseModelAdmin):
     )
 
 
+admin.site.register(User, UserAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Statistics, StatisticsAdmin)
 admin.site.register(MainCardSlider, MainCardSliderAdmin)
