@@ -65,6 +65,10 @@ class Statistics(TimeBaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
 
+    class Meta:
+        verbose_name_plural = 'Statistics'
+        ordering = ('-created_at',)
+
     def __str__(self):
         return self.title
 
@@ -73,6 +77,10 @@ class MainCardSlider(TimeBaseModel):
     image = models.ImageField(upload_to='maincardslider')
     title = models.CharField(max_length=255)
     description = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Main Card Sliders'
+        ordering = ('-created_at',)
 
     def __str__(self):
         return self.title
@@ -90,6 +98,10 @@ class WhyChooseUs(TimeBaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
 
+    class Meta:
+        verbose_name_plural = 'Why Choose Us'
+        ordering = ('-created_at',)
+
     def __str__(self):
         return self.title
 
@@ -98,6 +110,10 @@ class PatientTestimonial(TimeBaseModel):
     image = models.ImageField(upload_to='patienttestimonial')
     title = models.CharField(max_length=255)
     description = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Patient Testimonials'
+        ordering = ('-created_at',)
 
     def __str__(self):
         return self.title
@@ -112,6 +128,10 @@ class ContactUs(TimeBaseModel):
     instagram = models.CharField(max_length=255, blank=True)
     linkedin = models.CharField(max_length=255, blank=True)
     youtube = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Contact Us'
+        ordering = ('-created_at',)
 
     def __str__(self):
         return self.email
