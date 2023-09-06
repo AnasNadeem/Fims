@@ -42,5 +42,33 @@ class StatisticsAdmin(BaseModelAdmin):
     pass
 
 
+class MainCardSliderAdmin(BaseModelAdmin):
+    pass
+
+
+class WhyChooseUsAdmin(BaseModelAdmin):
+    pass
+
+
+class PatientTestimonialAdmin(BaseModelAdmin):
+    pass
+
+
+class ContactUsAdmin(TimeBaseModelAdmin):
+    list_display = ('mobile', 'email', 'address', 'facebook', 'twitter', 'instagram', 'linkedin', 'youtube',) + TimeBaseModelAdmin.list_display
+    fieldsets = (
+        (None, {
+            'fields': ('mobile', 'email', 'address', 'facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 'is_active')
+        }),
+        ('Time', {
+            'fields': ('created_at', 'updated_at')
+        }),
+    )
+
+
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Statistics, StatisticsAdmin)
+admin.site.register(MainCardSlider, MainCardSliderAdmin)
+admin.site.register(WhyChooseUs, WhyChooseUsAdmin)
+admin.site.register(PatientTestimonial, PatientTestimonialAdmin)
+admin.site.register(ContactUs, ContactUsAdmin)

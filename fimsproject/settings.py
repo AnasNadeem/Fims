@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # Third Party Apps
     'rest_framework',
     'corsheaders',
@@ -33,11 +34,12 @@ INSTALLED_APPS = [
     'fimsapp',
 ]
 
+AUTH_USER_MODEL = 'fimsapp.User'
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'sealapp.utils.JWTAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'fimsapp.jwtauth.JWTAuthentication',
+    ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
@@ -47,6 +49,7 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 20,
 }
 
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'fimsapp.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'fimsproject.urls'

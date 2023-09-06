@@ -1,4 +1,5 @@
 from .views import (
+    UserViewset,
     ServiceViewSet,
     StatisticsViewSet,
     MainCardSliderViewSet,
@@ -11,6 +12,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 
 router = routers.SimpleRouter(trailing_slash=False)
+router.register(r"user", UserViewset, basename="user")
 router.register(r"service", ServiceViewSet, basename="service")
 router.register(r"statistics", StatisticsViewSet, basename="statistics")
 router.register(r"maincardslider", MainCardSliderViewSet, basename="maincardslider")
