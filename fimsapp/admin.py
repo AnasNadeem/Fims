@@ -6,6 +6,7 @@ from .models import (
     WhyChooseUs,
     PatientTestimonial,
     ContactUs,
+    Doctor,
 )
 from django.contrib import admin
 
@@ -73,6 +74,11 @@ class ContactUsAdmin(TimeBaseModelAdmin):
     )
 
 
+class DoctorAdmin(TimeBaseModelAdmin):
+    list_display = ('user', 'designation') + TimeBaseModelAdmin.list_display
+    search_fields = ('user__email', 'user__first_name', 'user__last_name', 'designation')
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Statistics, StatisticsAdmin)
@@ -80,3 +86,4 @@ admin.site.register(MainCardSlider, MainCardSliderAdmin)
 admin.site.register(WhyChooseUs, WhyChooseUsAdmin)
 admin.site.register(PatientTestimonial, PatientTestimonialAdmin)
 admin.site.register(ContactUs, ContactUsAdmin)
+admin.site.register(Doctor, DoctorAdmin)

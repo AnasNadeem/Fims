@@ -10,6 +10,7 @@ from .models_manager import UserManager
 # WhyChooseUs - image, title, description
 # PatientTestimonial - image, title, description
 # Contact Us - mobile, email, address, facebook, twitter, instagram, linkedin, youtube
+# Doctor - user (fk), image, designation, description, services (m2m
 
 
 class TimeBaseModel(models.Model):
@@ -114,3 +115,14 @@ class ContactUs(TimeBaseModel):
 
     def __str__(self):
         return self.email
+
+
+class Doctor(TimeBaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='doctor')
+    designation = models.CharField(max_length=255)
+    description = models.TextField()
+    services = models.ManyToManyField(Service)
+
+    def __str__(self):
+        return self.user.full_name()

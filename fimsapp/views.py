@@ -9,6 +9,7 @@ from .models import (
     WhyChooseUs,
     PatientTestimonial,
     ContactUs,
+    Doctor,
 )
 from .serializers import (
     UserSerializer,
@@ -21,6 +22,7 @@ from .serializers import (
     WhyChooseUsSerializer,
     PatientTestimonialSerializer,
     ContactUsSerializer,
+    DoctorSerializer,
 )
 from .permissions import (
     IsAuthenticated,
@@ -107,7 +109,7 @@ class UserViewset(ModelViewSet):
 class BaseViewSet(ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(is_active=True)
-    
+
     def create(self, request, *args, **kwargs):
         return response.Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -147,3 +149,8 @@ class PatientTestimonialViewSet(BaseViewSet):
 class ContactUsViewSet(BaseViewSet):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializer
+
+
+class DoctorViewSet(BaseViewSet):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer

@@ -6,6 +6,7 @@ from .views import (
     WhyChooseUsViewSet,
     PatientTestimonialViewSet,
     ContactUsViewSet,
+    DoctorViewSet,
 )
 from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -19,6 +20,7 @@ router.register(r"maincardslider", MainCardSliderViewSet, basename="maincardslid
 router.register(r"whychooseus", WhyChooseUsViewSet, basename="whychooseus")
 router.register(r"patienttestimonial", PatientTestimonialViewSet, basename="patienttestimonial")
 router.register(r"contactus", ContactUsViewSet, basename="contactus")
+router.register(r"doctor", DoctorViewSet, basename="doctor")
 
 urlpatterns = []
 urlpatterns += router.urls

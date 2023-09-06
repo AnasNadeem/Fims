@@ -6,6 +6,7 @@ from .models import (
     WhyChooseUs,
     PatientTestimonial,
     ContactUs,
+    Doctor,
 )
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
@@ -16,6 +17,7 @@ from django.utils.translation import gettext_lazy as _
 ######################
 # ---- USER ---- #
 ######################
+
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -117,4 +119,13 @@ class PatientTestimonialSerializer(ModelSerializer):
 class ContactUsSerializer(ModelSerializer):
     class Meta:
         model = ContactUs
+        fields = "__all__"
+
+
+class DoctorSerializer(ModelSerializer):
+    service = ServiceSerializer(many=True, read_only=True)
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Doctor
         fields = "__all__"
