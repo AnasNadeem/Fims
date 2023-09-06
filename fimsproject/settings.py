@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     # Our apps
+    'fimsapp',
 ]
 
 
