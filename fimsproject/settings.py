@@ -33,11 +33,12 @@ INSTALLED_APPS = [
     'fimsapp',
 ]
 
+AUTH_USER_MODEL = 'fimsapp.User'
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'sealapp.utils.JWTAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'fimsapp.JWTAuthentication',
+    ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'fimsapp.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'fimsproject.urls'

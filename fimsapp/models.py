@@ -1,4 +1,7 @@
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
+from django.utils import timezone
+from .models_manager import UserManager
 
 # Service - image, title, description, showinmaincard (bool)
 # Statistics - image, title, description
@@ -16,6 +19,33 @@ class TimeBaseModel(models.Model):
     class Meta:
         abstract = True
         ordering = ('-created_at',)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
+    email = models.EmailField(unique=True, blank=False)
+    phone_number = models.CharField(max_length=10, null=True, blank=True, unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+
+    def clean(self):
+        super().clean()
+        self.email = self.__class__.objects.normalize_email(self.email)
+
+    def full_name(self):
+        full_name = f"{self.first_name} {self.last_name}"
+        return full_name.strip()
+
+    # def email_user(self, subject, message, from_email=None, **kwargs):
+    #     """Send an email to this user."""
+    #     send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
 class Service(TimeBaseModel):
