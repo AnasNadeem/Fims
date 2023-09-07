@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Service(TimeBaseModel):
-    image = models.ImageField(upload_to='service')
+    image = models.FileField(upload_to='service')
     title = models.CharField(max_length=255)
     description = models.TextField()
     showinmaincard = models.BooleanField(default=False)
@@ -61,7 +61,7 @@ class Service(TimeBaseModel):
 
 
 class Statistics(TimeBaseModel):
-    image = models.ImageField(upload_to='statistics')
+    image = models.FileField(upload_to='statistics')
     title = models.CharField(max_length=255)
     description = models.TextField()
 
@@ -94,7 +94,7 @@ class MainCardSlider(TimeBaseModel):
 
 
 class WhyChooseUs(TimeBaseModel):
-    image = models.ImageField(upload_to='whychooseus')
+    image = models.FileField(upload_to='whychooseus')
     title = models.CharField(max_length=255)
     description = models.TextField()
 
