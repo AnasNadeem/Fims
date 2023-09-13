@@ -32,6 +32,7 @@ from .permissions import (
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status, response
 from rest_framework.decorators import action
+from .utils import send_or_verify_otp
 
 
 class UserViewset(ModelViewSet):
@@ -43,7 +44,7 @@ class UserViewset(ModelViewSet):
         user_permission_map = {
             "update": UserPermission,
             'list': IsAuthenticated,
-            "reset_forget_password": UserPermission,
+            "change_password": UserPermission,
         }
         if self.action in user_permission_map:
             self.permission_classes = [user_permission_map.get(self.action)]
@@ -80,8 +81,19 @@ class UserViewset(ModelViewSet):
         if not authenticated:
             return response.Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user_serializer_data = UserSerializer(user).data
-        return response.Response(user_serializer_data, status=status.HTTP_200_OK)
+        resp_data, resp_status = send_or_verify_otp(request, user)
+        return response.Response(resp_data, status=resp_status)
+
+    @action(detail=False, methods=['post'])
+    def forget_password(self, request):
+        data = request.data
+        email = data.get('email', '')
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return response.Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        resp_data, resp_status = send_or_verify_otp(request, user, resent=True)
+        return response.Response(resp_data, status=resp_status)
 
     @action(detail=False, methods=['post'])
     def token_login(self, request):
@@ -96,6 +108,33 @@ class UserViewset(ModelViewSet):
             user_serializer_data = UserSerializer(user).data
             return response.Response(user_serializer_data, status=status.HTTP_200_OK)
         return response.Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'])
+    def verify_otp(self, request):
+        data = request.data
+        email = data.get('email', '')
+        change_password = data.get('change_password', False)
+        new_password = data.get('new_password', '')
+
+        if not email:
+            return response.Response({'error': 'Email cannot be blank.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return response.Response({'error': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        otp = data.get('otp', '')
+        if not otp:
+            return response.Response({'error': 'OTP cannot be blank.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        resp_data, resp_status = send_or_verify_otp(request, user, otp)
+
+        if change_password and resp_status == status.HTTP_200_OK:
+            user.set_password(new_password)
+            user.save()
+            resp_data['message'] = 'Password changed successfully.'
+
+        return response.Response(resp_data, status=resp_status)
 
     @action(detail=False, methods=['put'])
     def change_password(self, request):
