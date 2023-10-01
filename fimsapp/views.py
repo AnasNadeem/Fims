@@ -17,6 +17,7 @@ from .serializers import (
     LoginSerializer,
     ChangePasswordSerializer,
     ServiceSerializer,
+    ServiceSerializerWithDoctor,
     StatisticsSerializer,
     MainCardSliderSerializer,
     WhyChooseUsSerializer,
@@ -163,6 +164,13 @@ class ServiceViewSet(BaseViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
     filterset_fields = ('showinmaincard',)
+
+    def get_serializer_class(self):
+        serializer_map = {
+            "list": ServiceSerializerWithDoctor,
+            "retrieve": ServiceSerializerWithDoctor,
+        }
+        return serializer_map.get(self.action, ServiceSerializer)
 
 
 class StatisticsViewSet(BaseViewSet):
