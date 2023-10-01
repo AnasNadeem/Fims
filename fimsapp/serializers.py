@@ -92,6 +92,28 @@ class ServiceSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class ServiceSerializerWithDoctor(ModelSerializer):
+    doctors = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Service
+        fields = (
+            "id",
+            "title",
+            "description",
+            "image",
+            "doctors",
+            "showinmaincard",
+            "tags",
+            "is_featured",
+        )
+
+    def get_doctors(self, obj):
+        doctors = Doctor.objects.filter(service=obj.id)
+        serializer = DoctorSerializer(doctors, many=True)
+        return serializer.data
+
+
 class StatisticsSerializer(ModelSerializer):
     class Meta:
         model = Statistics

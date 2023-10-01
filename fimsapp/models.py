@@ -1,16 +1,9 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils import timezone
-from .models_manager import UserManager
 
-# Service - image, title, description, showinmaincard (bool)
-# Statistics - image, title, description
-# MainCardSlider - image, title, description
-# MainCardService - service (fk)
-# WhyChooseUs - image, title, description
-# PatientTestimonial - image, title, description
-# Contact Us - mobile, email, address, facebook, twitter, instagram, linkedin, youtube
-# Doctor - user (fk), image, designation, description, services (m2m
+from .models_manager import UserManager
 
 
 class TimeBaseModel(models.Model):
@@ -64,6 +57,8 @@ class Service(TimeBaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
     showinmaincard = models.BooleanField(default=False)
+    tags = ArrayField(models.CharField(max_length=200), blank=True, null=True)
+    is_featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -152,6 +147,8 @@ class Doctor(TimeBaseModel):
     designation = models.CharField(max_length=255)
     description = models.TextField()
     services = models.ManyToManyField(Service)
+    is_featured = models.BooleanField(default=False)
+    tags = ArrayField(models.CharField(max_length=200), blank=True, null=True)
 
     def __str__(self):
         return self.user.full_name()

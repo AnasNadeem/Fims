@@ -10,7 +10,8 @@ gunicorn
 importlib-metadata
 mccabe
 Pillow>7
-psycopg2==2.9.6
+# psycopg2==2.9.6
+psycopg2-binary
 pycodestyle>1
 pyflakes
 PyJWT>2
