@@ -109,7 +109,8 @@ class ServiceSerializerWithDoctor(ModelSerializer):
         )
 
     def get_doctors(self, obj):
-        return DoctorSerializer(obj.doctors.all(), many=True).data
+        doctors = obj.doctor_set.all()
+        return DoctorSerializer(doctors, many=True).data
 
 
 class StatisticsSerializer(ModelSerializer):
