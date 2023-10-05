@@ -144,7 +144,14 @@ class ContactUsSerializer(ModelSerializer):
 
 
 class DoctorSerializer(ModelSerializer):
-    service = ServiceSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Doctor
+        fields = "__all__"
+
+
+class DoctorInDepthSerializer(ModelSerializer):
+    services = ServiceSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
 
     class Meta:

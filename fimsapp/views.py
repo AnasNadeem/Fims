@@ -24,6 +24,7 @@ from .serializers import (
     PatientTestimonialSerializer,
     ContactUsSerializer,
     DoctorSerializer,
+    DoctorInDepthSerializer,
 )
 from .permissions import (
     IsAuthenticated,
@@ -201,3 +202,10 @@ class ContactUsViewSet(BaseViewSet):
 class DoctorViewSet(BaseViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+
+    def get_serializer_class(self):
+        serializer_map = {
+            "list": DoctorInDepthSerializer,
+            "retrieve": DoctorInDepthSerializer,
+        }
+        return serializer_map.get(self.action, DoctorSerializer)
