@@ -111,9 +111,11 @@ class WhyChooseUs(TimeBaseModel):
 
 
 class PatientTestimonial(TimeBaseModel):
+    doctor = models.ForeignKey('Doctor', on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(upload_to='patienttestimonial')
     title = models.CharField(max_length=255)
     description = models.TextField()
+    link = models.URLField(blank=True)
 
     class Meta:
         verbose_name_plural = 'Patient Testimonials'
@@ -152,3 +154,52 @@ class Doctor(TimeBaseModel):
 
     def __str__(self):
         return self.user.full_name()
+
+
+class DoctorVideosSlider(TimeBaseModel):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    link = models.URLField()
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.doctor.user.full_name()
+
+
+class DoctorOpdSchedule(TimeBaseModel):
+    DAYS_CHOICES = (
+        ('Sunday', 'Sunday'),
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday')
+    )
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    day = models.CharField(max_length=255, choices=DAYS_CHOICES)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    def __str__(self):
+        return f'{self.doctor.user.full_name()} - {self.day}'
+
+
+class DoctorYoutube(TimeBaseModel):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    link = models.URLField()
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+
+    def __str__(self):
+        return f'{self.doctor.user.full_name()} - {self.title}'
+
+
+class DoctorBlog(TimeBaseModel):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    link = models.URLField()
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+
+    def __str__(self):
+        return f'{self.doctor.user.full_name()} - {self.title}'

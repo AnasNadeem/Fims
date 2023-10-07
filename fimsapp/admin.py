@@ -8,6 +8,10 @@ from .models import (
     PatientTestimonial,
     ContactUs,
     Doctor,
+    DoctorVideosSlider,
+    DoctorOpdSchedule,
+    DoctorYoutube,
+    DoctorBlog,
 )
 from django.contrib import admin
 
@@ -60,10 +64,16 @@ class ServiceAdmin(BaseModelAdmin):
     list_display = BaseModelAdmin.list_display + ('showinmaincard',)
     list_filter = ('showinmaincard',) + BaseModelAdmin.list_filter
     fieldsets = (
-        ('Additionals', {
-            'fields': ('showinmaincard',)
+        (None, {
+            'fields': ('image', 'title', 'description', 'tags',)
         }),
-    ) + BaseModelAdmin.fieldsets
+        ('Additionals', {
+            'fields': ('is_featured', 'showinmaincard', 'is_active')
+        }),
+        ('Time', {
+            'fields': ('created_at', 'updated_at')
+        }),
+    )
 
 
 class StatisticsAdmin(BaseModelAdmin):
@@ -94,9 +104,42 @@ class ContactUsAdmin(TimeBaseModelAdmin):
     )
 
 
+class DoctorVideoSliderInline(admin.TabularInline):
+    model = DoctorVideosSlider
+    extra = 0
+
+
+class DoctorOpdScheduleInline(admin.TabularInline):
+    model = DoctorOpdSchedule
+    extra = 1
+
+
+class DoctorYoutubeInline(admin.TabularInline):
+    model = DoctorYoutube
+    extra = 0
+
+
+class DoctorBlogInline(admin.TabularInline):
+    model = DoctorBlog
+    extra = 0
+
+
 class DoctorAdmin(TimeBaseModelAdmin):
     list_display = ('user', 'designation') + TimeBaseModelAdmin.list_display
     search_fields = ('user__email', 'user__first_name', 'user__last_name', 'designation')
+    list_filter = ('is_featured',) + TimeBaseModelAdmin.list_filter
+    inlines = (DoctorOpdScheduleInline, DoctorVideoSliderInline, DoctorYoutubeInline, DoctorBlogInline)
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'image', 'designation', 'description', 'services', 'tags',)
+        }),
+        ('Additionals', {
+            'fields': ('is_featured', 'is_active')
+        }),
+        ('Time', {
+            'fields': ('created_at', 'updated_at')
+        }),
+    )
 
 
 admin.site.register(User, UserAdmin)

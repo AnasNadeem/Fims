@@ -7,6 +7,10 @@ from .models import (
     PatientTestimonial,
     ContactUs,
     Doctor,
+    DoctorVideosSlider,
+    DoctorOpdSchedule,
+    DoctorYoutube,
+    DoctorBlog,
 )
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
@@ -147,6 +151,30 @@ class DoctorSerializer(ModelSerializer):
 
     class Meta:
         model = Doctor
+        fields = "__all__"
+
+
+class DoctorVideosSliderSerializer(ModelSerializer):
+    class Meta:
+        model = DoctorVideosSlider
+        fields = "__all__"
+
+
+class DoctorOpdScheduleSerializer(ModelSerializer):
+    class Meta:
+        model = DoctorOpdSchedule
+        fields = "__all__"
+
+
+class DoctorYoutubeSerializer(ModelSerializer):
+    class Meta:
+        model = DoctorYoutube
+        fields = "__all__"
+
+
+class DoctorBlogSerializer(ModelSerializer):
+    class Meta:
+        model = DoctorBlog
         fields = "__all__"
 
 
