@@ -89,7 +89,14 @@ class WhyChooseUsAdmin(BaseModelAdmin):
 
 
 class PatientTestimonialAdmin(BaseModelAdmin):
-    pass
+    fieldsets = (
+        (None, {
+            'fields': ('doctor', 'image', 'link', 'title', 'description', 'is_active')
+        }),
+        ('Time', {
+            'fields': ('created_at', 'updated_at')
+        }),
+    )
 
 
 class ContactUsAdmin(TimeBaseModelAdmin):

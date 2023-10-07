@@ -181,6 +181,10 @@ class DoctorBlogSerializer(ModelSerializer):
 class DoctorInDepthSerializer(ModelSerializer):
     services = ServiceSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
+    videos_slider = DoctorVideosSliderSerializer(many=True, read_only=True, source="doctorvideosslider_set")
+    opd_schedule = DoctorOpdScheduleSerializer(many=True, read_only=True, source="doctoropdschedule_set")
+    youtube = DoctorYoutubeSerializer(many=True, read_only=True, source="doctoryoutube_set")
+    blog = DoctorBlogSerializer(many=True, read_only=True, source="doctorblog_set")
 
     class Meta:
         model = Doctor
